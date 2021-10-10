@@ -1,23 +1,31 @@
-let i = $('#table-courses').children.length;
+<!-- V-1.2.1-->
+
+let i = $('#table-courses').length;
 $('.alert-danger').hide();
 $('#show-gpa').hide();
+
+console.log(i)
 
 $('#calculate').click(function (event) {
   const {target} = event;
   try {
     const inputs = target.parentElement.previousElementSibling.children;
     let course = [];
-    if (inputs.length) {
+    console.log(inputs.length)
+    if (inputs.length > 0) {
       for (const i of inputs) {
         let obj = {};
         for (const j of i.children) {
           for (const k of j.children) {
-            if (k.classList.contains('credit') && k.value != '') {
-              obj.credit = +k.value
-            } else if (k.classList.contains('gpa') && k.value != '-1') {
-              obj.grade = +k.value
-            } else if ((k.classList.contains('credit') && k.value == '') || (k.classList.contains('gpa') && k.value == '-1')) {
-              console.log((k.classList.contains('credit') && k.value == ''), (k.classList.contains('gpa') && k.value == '-1'))
+            let targetValue = +k.value;
+            console.log(k.classList.contains('credit'))
+            if (k.classList.contains('credit') && (targetValue > 15 || targetValue < 0)) {
+              throw 'Credit must greater than 0 and less than 15 ';
+            } else if (k.classList.contains('credit') && targetValue != '') {
+              obj.credit = targetValue;
+            } else if (k.classList.contains('gpa') && targetValue != '-1') {
+              obj.grade = targetValue;
+            } else if ((k.classList.contains('credit') && targetValue == '') || (k.classList.contains('gpa') && targetValue == '-1')) {
               throw 'Some fields is empty';
             }
           }
@@ -30,7 +38,6 @@ $('#calculate').click(function (event) {
     }
   } catch (e) {
     $('.alert-danger').text(e).fadeIn();
-    console.log(e)
     setTimeout(() => {
       $('.alert-danger').fadeOut();
     }, 3000)
@@ -48,11 +55,21 @@ function calculate(course) {
 }
 
 function innerHtml(points, totalCredit) {
-  console.log(points / totalCredit)
   let gpa = (points / totalCredit).toFixed(2)
-  $('#gpa').text(gpa)
-  $('#show-gpa').show()
-  changeBorderColor(gpa)
+  try {
+    if (gpa >= 0 && gpa <= 4) {
+      $('#gpa').text(gpa)
+      $('#show-gpa').show()
+      changeBorderColor(gpa)
+    } else {
+      throw 'GPA must be between 0 and 4';
+    }
+  } catch (e) {
+    $('.alert-danger').text(e).fadeIn();
+    setTimeout(() => {
+      $('.alert-danger').fadeOut();
+    }, 3000)
+  }
 }
 
 function changeBorderColor(gpa) {
@@ -88,7 +105,6 @@ function changeBorderColor(gpa) {
 }
 
 $('#add-course').click(function () {
-  console.log(i)
   if (i <= 7) {
     let pushRow = `
     <div class="row mt-3 d-flex justify-content-around">
@@ -96,7 +112,7 @@ $('#add-course').click(function () {
         <input type="text" class="form-control p-1">
       </div>
       <div class="col-2">
-        <input type="number" class="credit form-control p-1" required>
+        <input type="number" class="credit form-control p-1 text-center" required>
       </div>
       <div class="col-2">
         <select class="gpa form-select" required>
@@ -129,8 +145,9 @@ function append(pushRow) {
 
 
 $('body').click(function (event) {
-  if (event.target.classList.contains('remove')) {
-    event.target.parentElement.parentElement.remove()
+  const {target} = event;
+  if (target.classList.contains('remove')) {
+    target.parentElement.parentElement.remove()
     $('#show-gpa').hide();
     i--;
   }
