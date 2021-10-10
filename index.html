@@ -17,39 +17,48 @@
           height: 250px;
           width: 250px;
           border: 15px solid #000;
-          animation-name: borderd;
-          animation-duration: 0.7s;
-          animation-iteration-count: 2;
+          /*animation-name: borderd;*/
+          /*animation-duration: 0.7s;*/
+          /*animation-iteration-count: 2;*/
       }
 
-      @keyframes borderd {
-          from {
-              border: 15px solid #fff
-          }
-          10% {
-              border: 15px solid #ea868f
-          }
-          25% {
-              border: 15px solid #dc3545
-          }
-          50% {
-              border: 15px solid #ffe69c
-          }
-          65% {
-              border: 15px solid #ffc107
-          }
-          75% {
-              border: 15px solid #146c43
-          }
-          85% {
-              border: 15px solid #146c43
-          }
-          to {
-              border: 15px solid #0a3622
-          }
+      #title-credit::after {
+          content: " *";
+          color: #f00;
       }
+      #title-gpa ::after {
+          content: '*';
+          color: #f00
+      }
+
+
+      /*@keyframes borderd {*/
+      /*    from {*/
+      /*        border: 15px solid #fff*/
+      /*    }*/
+      /*    10% {*/
+      /*        border: 15px solid #ea868f*/
+      /*    }*/
+      /*    25% {*/
+      /*        border: 15px solid #dc3545*/
+      /*    }*/
+      /*    50% {*/
+      /*        border: 15px solid #ffe69c*/
+      /*    }*/
+      /*    65% {*/
+      /*        border: 15px solid #ffc107*/
+      /*    }*/
+      /*    75% {*/
+      /*        border: 15px solid #146c43*/
+      /*    }*/
+      /*    85% {*/
+      /*        border: 15px solid #146c43*/
+      /*    }*/
+      /*    to {*/
+      /*        border: 15px solid #0a3622*/
+      /*    }*/
+      /*}*/
   </style>
-
 </head>
 <body>
 
@@ -64,7 +73,7 @@
   <div class="container h-100 mt-5">
     <div class="d-flex align-items-center justify-content-center">
       <div id="circle" class="rounded-circle d-flex align-items-center justify-content-center">
-        <h1 class="display-1 p-2"><span id="gpa" class="d-inline-block">4</span>/4</h1>
+        <h1 class="p-2" style="font-size: 56px"><span id="gpa">4</span>/4</h1>
       </div>
     </div>
   </div>
@@ -89,8 +98,8 @@
   <div class="container mt-5">
     <div class="row d-flex justify-content-around">
       <div class="col-4">Name <small class="text-muted">(optional)</small></div>
-      <div class="col-2">Credit <sup class="text-danger" style="font-size: 20px">*</sup></div>
-      <div class="col-2">Grade <sup class="text-danger" style="font-size: 20px">*</sup></div>
+      <div id="title-credit" class="col-2">Credit</div>
+      <div id="title-grade" class="col-2">Grade</div>
       <div class="col-1"></div>
     </div>
   </div>

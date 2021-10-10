@@ -1,4 +1,4 @@
-let i = 1;
+let i = $('#table-courses').children.length;
 $('.alert-danger').hide();
 $('#show-gpa').hide();
 
@@ -8,7 +8,6 @@ $('#calculate').click(function (event) {
     const inputs = target.parentElement.previousElementSibling.children;
     let course = [];
     if (inputs.length) {
-
       for (const i of inputs) {
         let obj = {};
         for (const j of i.children) {
@@ -31,7 +30,7 @@ $('#calculate').click(function (event) {
     }
   } catch (e) {
     $('.alert-danger').text(e).fadeIn();
-
+    console.log(e)
     setTimeout(() => {
       $('.alert-danger').fadeOut();
     }, 3000)
@@ -52,10 +51,44 @@ function innerHtml(points, totalCredit) {
   console.log(points / totalCredit)
   let gpa = (points / totalCredit).toFixed(2)
   $('#gpa').text(gpa)
-  $('#show-gpa').fadeIn()
+  $('#show-gpa').show()
+  changeBorderColor(gpa)
+}
+
+function changeBorderColor(gpa) {
+  if (gpa >= 3.75 && gpa < 4) {
+    $('#circle').css({
+      borderColor: '#1e88e5'
+    })
+  } else if (gpa >= 3.5 && gpa > 3.75) {
+    $('#circle').css({
+      borderColor: 'rgb(36,130,119)'
+    })
+  } else if (gpa >= 3.00 && gpa < 3.5) {
+    $('#circle').css({
+      borderColor: '#1ce9d0'
+    })
+  } else if (gpa >= 2.5 && gpa < 3.00) {
+    $('#circle').css({
+      borderColor: '#fb8500'
+    })
+  } else if (gpa >= 2.00 && gpa < 2.5) {
+    $('#circle').css({
+      borderColor: '#ffb703'
+    })
+  } else if (gpa >= 1.5 && gpa < 2.00) {
+    $('#circle').css({
+      borderColor: '#e5383b'
+    })
+  } else if (gpa >= 1 && gpa < 1.5) {
+    $('#circle').css({
+      borderColor: '#e5383b'
+    })
+  }
 }
 
 $('#add-course').click(function () {
+  console.log(i)
   if (i <= 7) {
     let pushRow = `
     <div class="row mt-3 d-flex justify-content-around">
@@ -91,13 +124,14 @@ $('#add-course').click(function () {
 })
 
 function append(pushRow) {
-  $('#row-course').append(pushRow)
+  $('#table-courses').append(pushRow)
 }
 
 
 $('body').click(function (event) {
   if (event.target.classList.contains('remove')) {
     event.target.parentElement.parentElement.remove()
-
+    $('#show-gpa').hide();
+    i--;
   }
 })
