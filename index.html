@@ -22,13 +22,10 @@
           /*animation-iteration-count: 2;*/
       }
 
-      #title-credit::after {
+      #title-credit::after,
+      #title-grade::after{
           content: " *";
           color: #f00;
-      }
-      #title-gpa ::after {
-          content: '*';
-          color: #f00
       }
 
 
@@ -103,7 +100,32 @@
       <div class="col-1"></div>
     </div>
   </div>
-  <div id="row-course" class="container mt-2"></div>
+  <div id="table-courses" class="container mt-2">
+    <div class="row mt-3 d-flex justify-content-around">
+      <div class="col-4">
+        <input type="text" class="form-control p-1">
+      </div>
+      <div class="col-2">
+        <input type="number" class="credit form-control p-1" required>
+      </div>
+      <div class="col-2">
+        <select class="gpa form-select" required>
+          <option value="-1">choose</option>
+          <option value="4">A+</option>
+          <option value="3.75">A</option>
+          <option value="3.5">B+</option>
+          <option value="3">B</option>
+          <option value="2.5">C+</option>
+          <option value="2">C</option>
+          <option value="1.5">D+</option>
+          <option value="1">D</option>
+        </select>
+      </div>
+      <div class="col-1">
+        <button class="remove btn btn-outline-danger">X</button>
+      </div>
+    </div>
+  </div>
 
   <div class="container">
     <button id="calculate" class="btn btn-outline-success mt-5 mx-auto d-block">
