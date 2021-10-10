@@ -4,21 +4,17 @@ let i = $('#table-courses').length;
 $('.alert-danger').hide();
 $('#show-gpa').hide();
 
-console.log(i)
-
 $('#calculate').click(function (event) {
   const {target} = event;
   try {
     const inputs = target.parentElement.previousElementSibling.children;
     let course = [];
-    console.log(inputs.length)
     if (inputs.length > 0) {
       for (const i of inputs) {
         let obj = {};
         for (const j of i.children) {
           for (const k of j.children) {
             let targetValue = +k.value;
-            console.log(k.classList.contains('credit'))
             if (k.classList.contains('credit') && (targetValue > 15 || targetValue < 0)) {
               throw 'Credit must greater than 0 and less than 15 ';
             } else if (k.classList.contains('credit') && targetValue != '') {
@@ -40,6 +36,8 @@ $('#calculate').click(function (event) {
     $('.alert-danger').text(e).fadeIn();
     setTimeout(() => {
       $('.alert-danger').fadeOut();
+      $('#show-gpa').fadeOut();
+
     }, 3000)
   }
 })
@@ -68,6 +66,7 @@ function innerHtml(points, totalCredit) {
     $('.alert-danger').text(e).fadeIn();
     setTimeout(() => {
       $('.alert-danger').fadeOut();
+      $('#show-gpa').fadeOut();
     }, 3000)
   }
 }
