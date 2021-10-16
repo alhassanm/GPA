@@ -1,13 +1,13 @@
-<!-- V-1.2.1-->
-
 let i = $('#table-courses').length;
 $('.alert-danger').hide();
 $('#show-gpa').hide();
 
 $('#calculate').click(function (event) {
-  const {target} = event;
+  const { target } = event;
+  let calculateTotal = calTotal();
   try {
     const inputs = target.parentElement.previousElementSibling.children;
+    
     let course = [];
     if (inputs.length > 0) {
       for (const i of inputs) {
@@ -15,18 +15,24 @@ $('#calculate').click(function (event) {
         for (const j of i.children) {
           for (const k of j.children) {
             let targetValue = +k.value;
-            if (k.classList.contains('credit') && (targetValue > 15 || targetValue < 0)) {
+            if (
+              k.classList.contains('credit') &&
+              (targetValue > 15 || targetValue < 0)
+            ) {
               throw 'Credit must greater than 0 and less than 15 ';
             } else if (k.classList.contains('credit') && targetValue != '') {
               obj.credit = targetValue;
             } else if (k.classList.contains('gpa') && targetValue != '-1') {
               obj.grade = targetValue;
-            } else if ((k.classList.contains('credit') && targetValue == '') || (k.classList.contains('gpa') && targetValue == '-1')) {
+            } else if (
+              (k.classList.contains('credit') && targetValue == '') ||
+              (k.classList.contains('gpa') && targetValue == '-1')
+            ) {
               throw 'Some fields is empty';
             }
           }
         }
-        course.push(obj)
+        course.push(obj);
       }
       calculate(course);
     } else {
@@ -37,28 +43,73 @@ $('#calculate').click(function (event) {
     setTimeout(() => {
       $('.alert-danger').fadeOut();
       $('#show-gpa').fadeOut();
-
-    }, 3000)
+    }, 3000);
   }
-})
+});
+
+function calTotal() {
+  let obj = {};
+
+  $('#total div').each((index, elem) => {
+    try {
+      const input = elem.children[1];
+
+      if (
+        input.id === 'total-points' &&
+        typeof input.value === 'string' &&
+        input.value != ''
+      ) {
+        let parse = +input.value
+        if (parse) 
+          obj.totalPoint = +input.value;
+        else 
+          throw 'Must field is number';
+      } else if (
+        input.id === 'total-credit' &&
+        typeof input.value === 'string' &&
+        input.value != ''
+      ) {
+        let parse = +input.value
+        if (parse) 
+          obj.totalCredit = +input.value;
+        else 
+          throw 'Must field is number';
+      } else 
+        throw 'You must enter field';
+      
+    } catch {
+      $(`#${elem.children[1].id}`).css({
+        border: '1px solid #f00',
+      });
+      setTimeout(() => {
+        $('#show-gpa').fadeOut();
+        $(`#${elem.children[1].id}`).css({
+          border: '1px solid #CED4DA',
+        });
+      }, 3000);
+    }
+  });
+
+  console.log(obj);
+}
 
 function calculate(course) {
   let points = 0;
   let totalCredit = 0;
   for (const item of course) {
-    points += (item.grade * item.credit)
+    points += item.grade * item.credit;
     totalCredit += item.credit;
   }
   innerHtml(points, totalCredit);
 }
 
 function innerHtml(points, totalCredit) {
-  let gpa = (points / totalCredit).toFixed(2)
+  let gpa = (points / totalCredit).toFixed(2);
   try {
     if (gpa >= 0 && gpa <= 4) {
-      $('#gpa').text(gpa)
-      $('#show-gpa').show()
-      changeBorderColor(gpa)
+      $('#gpa').text(gpa);
+      $('#show-gpa').show();
+      changeBorderColor(gpa);
     } else {
       throw 'GPA must be between 0 and 4';
     }
@@ -67,39 +118,39 @@ function innerHtml(points, totalCredit) {
     setTimeout(() => {
       $('.alert-danger').fadeOut();
       $('#show-gpa').fadeOut();
-    }, 3000)
+    }, 3000);
   }
 }
 
 function changeBorderColor(gpa) {
   if (gpa >= 3.75 && gpa < 4) {
     $('#circle').css({
-      borderColor: '#1e88e5'
-    })
+      borderColor: '#1e88e5',
+    });
   } else if (gpa >= 3.5 && gpa > 3.75) {
     $('#circle').css({
-      borderColor: 'rgb(36,130,119)'
-    })
-  } else if (gpa >= 3.00 && gpa < 3.5) {
+      borderColor: 'rgb(36,130,119)',
+    });
+  } else if (gpa >= 3.0 && gpa < 3.5) {
     $('#circle').css({
-      borderColor: '#1ce9d0'
-    })
-  } else if (gpa >= 2.5 && gpa < 3.00) {
+      borderColor: '#1ce9d0',
+    });
+  } else if (gpa >= 2.5 && gpa < 3.0) {
     $('#circle').css({
-      borderColor: '#fb8500'
-    })
-  } else if (gpa >= 2.00 && gpa < 2.5) {
+      borderColor: '#fb8500',
+    });
+  } else if (gpa >= 2.0 && gpa < 2.5) {
     $('#circle').css({
-      borderColor: '#ffb703'
-    })
-  } else if (gpa >= 1.5 && gpa < 2.00) {
+      borderColor: '#ffb703',
+    });
+  } else if (gpa >= 1.5 && gpa < 2.0) {
     $('#circle').css({
-      borderColor: '#e5383b'
-    })
+      borderColor: '#e5383b',
+    });
   } else if (gpa >= 1 && gpa < 1.5) {
     $('#circle').css({
-      borderColor: '#e5383b'
-    })
+      borderColor: '#e5383b',
+    });
   }
 }
 
@@ -132,22 +183,21 @@ $('#add-course').click(function () {
     </div>
 `;
     i++;
-    append(pushRow)
+    append(pushRow);
   } else {
-    alert('you cannot add more than 7 courses')
+    alert('you cannot add more than 7 courses');
   }
-})
+});
 
 function append(pushRow) {
-  $('#table-courses').append(pushRow)
+  $('#table-courses').append(pushRow);
 }
 
-
 $('body').click(function (event) {
-  const {target} = event;
+  const { target } = event;
   if (target.classList.contains('remove')) {
-    target.parentElement.parentElement.remove()
+    target.parentElement.parentElement.remove();
     $('#show-gpa').hide();
     i--;
   }
-})
+});
