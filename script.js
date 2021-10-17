@@ -22,7 +22,7 @@ $('#calculate').click(function (event) {
               obj.credit = targetValue;
             } else if (k.classList.contains('gpa') && targetValue != '-1') {
               obj.grade = targetValue;
-            } else if (
+            } else if ( 
               (k.classList.contains('credit') && targetValue == '') ||
               (k.classList.contains('gpa') && targetValue == '-1')
             ) {
@@ -182,7 +182,7 @@ $('#add-course').click(function () {
         <input type="number" class="credit form-control p-1 text-center" required>
       </div>
       <div class="col-2">
-        <select class="gpa form-select" required>
+        <select class="gpa form-control" required>
           <option value="-1">choose</option>
           <option value="4">A+</option>
           <option value="3.75">A</option>
